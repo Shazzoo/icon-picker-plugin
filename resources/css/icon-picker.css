@@ -1,0 +1,236 @@
+/*
+ * Self-contained: Filament ships precompiled CSS and does not scan plugin
+ * views, so utility classes used here would never be generated. Everything is
+ * plain CSS under a sip- prefix, themed off Filament's own custom properties
+ * where they exist.
+ */
+/*
+ * Palette in one place, derived from Filament's own --gray-* / --primary-*
+ * scale so the plugin matches the rest of the panel in both themes. Filament's
+ * greys are near-neutral; hardcoding Tailwind's slate here read visibly blue.
+ * Defined on :root because the picker panel is teleported outside the field.
+ */
+:root {
+    --sip-bg: var(--gray-50, #fff);
+    --sip-surface: #fff;
+    --sip-fg: var(--gray-950, #0f172a);
+    --sip-muted: var(--gray-500, #64748b);
+    --sip-line: var(--gray-200, #e2e8f0);
+    --sip-tile: var(--gray-100, #f1f5f9);
+    --sip-bg-hover: var(--gray-100, #f8fafc);
+    --sip-ring: color-mix(in oklab, var(--gray-950, #000) 10%, transparent);
+    --sip-accent: var(--primary-600, #f28a2a);
+}
+
+:root.dark {
+    --sip-bg: var(--gray-900, #18181b);
+    --sip-surface: var(--gray-900, #18181b);
+    --sip-fg: var(--gray-100, #f4f4f5);
+    --sip-muted: var(--gray-400, #a1a1aa);
+    --sip-line: var(--gray-700, #3f3f46);
+    --sip-tile: var(--gray-800, #27272a);
+    --sip-bg-hover: var(--gray-800, #27272a);
+    --sip-ring: color-mix(in oklab, var(--gray-50, #fff) 15%, transparent);
+    --sip-accent: var(--primary-500, #f28a2a);
+}
+
+.sip { position: relative; }
+
+.sip-trigger {
+    display: flex; align-items: center; gap: .5rem; width: 100%;
+    padding: .375rem .5rem .375rem .625rem;
+    background: var(--sip-surface);
+    border-radius: .5rem;
+    box-shadow: 0 0 0 1px var(--sip-ring), 0 1px 2px color-mix(in oklab, var(--sip-ring) 40%, transparent);
+    text-align: start; cursor: pointer; font-size: .875rem; line-height: 1.25rem;
+    color: var(--sip-fg);
+    transition: box-shadow .15s;
+}
+.sip-trigger:hover { background: var(--sip-bg-hover); }
+.sip-trigger:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--sip-accent); }
+
+.sip-preview {
+    display: flex; align-items: center; justify-content: center;
+    width: 1.75rem; height: 1.75rem; flex: none; border-radius: .375rem;
+    background: var(--sip-tile);
+    color: var(--sip-fg);
+}
+.sip-preview svg { width: 1.125rem; height: 1.125rem; }
+.sip-preview:empty::after { content: "—"; opacity: .4; font-size: .75rem; }
+
+.sip-label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sip-label[data-empty="true"] { color: var(--sip-muted); }
+
+.sip-clear, .sip-caret { flex: none; color: var(--sip-muted); display: flex; align-items: center; }
+.sip-clear { padding: .125rem; border-radius: .25rem; }
+.sip-clear:hover { color: #dc2626; }
+
+/* Fixed rather than absolute so a repeater's overflow cannot clip it. */
+.sip-panel {
+    position: fixed; z-index: 9999;
+    display: flex; flex-direction: column;
+    max-height: 21rem; min-width: 18rem;
+    background: var(--sip-surface);
+    border-radius: .625rem;
+    box-shadow: 0 0 0 1px var(--sip-ring), 0 10px 25px -5px color-mix(in oklab, #000 35%, transparent);
+    overflow: hidden;
+}
+
+.sip-head { display: flex; gap: .375rem; padding: .5rem; border-bottom: 1px solid var(--sip-line); flex: none; }
+.sip-head input, .sip-head select {
+    font-size: .8125rem; padding: .3125rem .5rem; border-radius: .375rem;
+    background: var(--sip-tile); color: var(--sip-fg);
+    border: 1px solid var(--sip-line);
+}
+.sip-head input { flex: 1 1 auto; min-width: 0; }
+.sip-head input:focus, .sip-head select:focus { outline: none; border-color: var(--sip-accent); }
+
+.sip-grid {
+    flex: 1 1 auto; overflow-y: auto; padding: .5rem;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr)); gap: .25rem;
+    align-content: start;
+}
+.sip-item {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border-radius: .375rem; cursor: pointer; color: var(--sip-fg);
+    border: 1px solid transparent; background: none;
+}
+.sip-item:hover { background: var(--sip-tile); }
+.sip-item[data-selected="true"] { border-width: 2px; border-color: var(--sip-accent); background: var(--sip-tile); }
+.sip-item svg { width: 1.25rem; height: 1.25rem; }
+
+.sip-note { padding: .75rem; text-align: center; font-size: .75rem; color: var(--sip-muted); }
+
+/* Filament toggles .dark on <html>. */
+
+/* ---------------------------------------------------------------- library */
+.sip-lib {
+    display: flex; flex-direction: column; min-height: 0;
+    /* leaves room for Filament's topbar, page heading and our own bar */
+    height: calc(100dvh - 17rem); min-height: 22rem;
+}
+.sip-lib-bar { display: flex; gap: .5rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; flex: none; }
+.sip-lib-bar input {
+    flex: 1 1 16rem; min-width: 0;
+    padding: .5rem .625rem; border-radius: .5rem; font-size: .875rem;
+    background: var(--sip-surface); color: var(--sip-fg);
+    border: 1px solid var(--sip-line);
+}
+.sip-lib-bar input:focus { outline: none; border-color: var(--sip-accent); }
+.sip-lib-filter { display: inline-flex; gap: .125rem; padding: .1875rem; border-radius: .5rem;
+    background: var(--sip-tile); border: 1px solid var(--sip-line); }
+.sip-lib-filter button {
+    padding: .3125rem .625rem; border-radius: .375rem; font-size: .8125rem; cursor: pointer;
+    background: none; border: 0; color: var(--sip-muted); white-space: nowrap;
+}
+.sip-lib-filter button:hover { color: var(--sip-fg); background: var(--sip-bg-hover); }
+.sip-lib-filter button:focus-visible { outline: 2px solid var(--sip-accent); outline-offset: 1px; }
+.sip-lib-filter button[aria-pressed="true"],
+.sip-lib-filter button[aria-pressed="true"]:hover {
+    background: var(--sip-accent); color: #fff;
+}
+.sip-lib-count {
+    flex: 0 0 auto; width: 15rem; text-align: end;
+    font-size: .8125rem; color: var(--sip-muted);
+    margin-inline-start: auto; font-variant-numeric: tabular-nums;
+}
+
+.sip-lib-grid {
+    flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    scrollbar-gutter: stable; padding-inline-end: .25rem; align-content: start;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); gap: .5rem;
+}
+.sip-lib-busy { opacity: .5; }
+
+.sip-lib-item {
+    position: relative; aspect-ratio: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem;
+    padding: .5rem; border-radius: .625rem; text-align: center; cursor: pointer;
+    background: var(--sip-surface); border: 1px solid var(--sip-line);
+    transition: border-color .12s, background-color .12s;
+}
+.sip-lib-item:hover { background: var(--sip-tile); border-color: var(--sip-accent); }
+.sip-lib-item:focus-visible { outline: 2px solid var(--sip-accent); outline-offset: 2px; }
+.sip-lib-item:disabled { opacity: .5; cursor: default; }
+
+/* Already added: primary border, no hover needed to tell them apart. */
+.sip-lib-item[data-installed="true"] { border-width: 2px; border-color: var(--sip-accent); }
+
+.sip-lib-art { color: var(--sip-fg); }
+.sip-lib-art svg { width: 2.125rem; height: 2.125rem; }
+.sip-lib-name {
+    font-size: .6875rem; color: var(--sip-muted); line-height: 1.2;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* Hover affordance: + to add, − to remove. */
+.sip-lib-badge {
+    position: absolute; top: .375rem; inset-inline-end: .375rem;
+    display: flex; align-items: center; justify-content: center;
+    width: 1.125rem; height: 1.125rem; border-radius: 999px;
+    background: var(--sip-accent); color: #fff;
+    opacity: 0; transform: scale(.8); transition: opacity .12s, transform .12s;
+}
+.sip-lib-badge svg { width: .75rem; height: .75rem; }
+.sip-lib-item:hover .sip-lib-badge,
+.sip-lib-item:focus-visible .sip-lib-badge { opacity: 1; transform: scale(1); }
+
+.sip-lib-more, .sip-lib-note { flex: none; font-size: .8125rem; color: var(--sip-muted); padding: .75rem 0 0; }
+.sip-lib-note code { font-family: ui-monospace, monospace; }
+
+/* picker empty state + footer */
+.sip-empty { padding: 1.25rem 1rem; text-align: center; font-size: .8125rem; color: var(--sip-muted); }
+.sip-empty p { margin: 0 0 .625rem; }
+.sip-btn {
+    display: inline-block; padding: .3125rem .75rem; border-radius: .375rem; font-size: .8125rem;
+    background: var(--sip-accent); color: #fff; text-decoration: none;
+}
+.sip-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+    padding: .375rem .625rem; border-top: 1px solid var(--sip-line);
+    font-size: .6875rem; color: var(--sip-muted); flex: none;
+}
+.sip-foot a { color: var(--sip-accent); text-decoration: none; }
+
+
+.sip-lib-foot {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; justify-content: center; gap: .75rem;
+    padding: 1rem 0 .25rem;
+}
+.sip-lib-load {
+    padding: .4375rem .875rem; border-radius: .5rem; font-size: .8125rem; cursor: pointer;
+    background: var(--sip-accent); color: #fff; border: 0;
+}
+.sip-lib-load:hover { filter: brightness(1.05); }
+.sip-lib-load:disabled { opacity: .6; cursor: default; }
+.sip-lib-load:focus-visible { outline: 2px solid var(--sip-accent); outline-offset: 2px; }
+.sip-lib-progress { font-size: .8125rem; color: var(--sip-muted); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------- remove confirmation */
+.sip-confirm-backdrop {
+    position: fixed; inset: 0; z-index: 60;
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
+    background: rgba(0, 0, 0, .5);
+}
+.sip-confirm {
+    width: 100%; max-width: 26rem; padding: 1.25rem; border-radius: .75rem;
+    background: var(--sip-surface); color: var(--sip-fg);
+    box-shadow: 0 0 0 1px var(--sip-ring), 0 10px 25px -5px color-mix(in oklab, #000 40%, transparent);
+}
+.sip-confirm h2 { font-size: 1rem; font-weight: 600; margin: 0 0 .5rem; }
+.sip-confirm p { font-size: .8125rem; color: var(--sip-muted); margin: 0 0 .75rem; }
+.sip-confirm ul {
+    margin: 0 0 1rem; padding: .625rem .75rem; border-radius: .5rem; list-style: none;
+    background: var(--sip-tile); font-size: .8125rem; max-height: 9rem; overflow-y: auto;
+}
+.sip-confirm li + li { margin-top: .25rem; }
+.sip-confirm-actions { display: flex; justify-content: flex-end; gap: .5rem; }
+.sip-confirm-actions button { padding: .4375rem .875rem; border-radius: .5rem; font-size: .8125rem; cursor: pointer; }
+.sip-confirm-cancel {
+    background: none; color: var(--sip-fg);
+    border: 1px solid var(--sip-line);
+}
+.sip-confirm-go { background: #dc2626; color: #fff; border: 0; }
+.sip-confirm-go:hover { filter: brightness(1.05); }
+

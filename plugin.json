@@ -1,0 +1,9 @@
+{
+  "key": "shazzoo/icon-picker",
+  "slug": "icon-picker",
+  "name": "Icon Picker",
+  "description": "Pick icons from a searchable grid of the Lucide set.",
+  "author": "Shazzoo",
+  "provider": "Shazzoo\\IconPicker\\IconPickerServiceProvider",
+  "class": "Shazzoo\\IconPicker\\Plugin"
+}

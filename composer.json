@@ -1,0 +1,26 @@
+{
+  "name": "shazzoo/icon-picker",
+  "description": "Icon picker for Content Studio Core: a searchable icon grid field, a Blade Icons set and an admin icon library.",
+  "type": "content-studio-plugin",
+  "license": "MIT",
+  "require": {
+    "php": "^8.3",
+    "shazzoo/content-studio-core": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Shazzoo\\IconPicker\\": "src/"
+    }
+  },
+  "extra": {
+    "content-studio": {
+      "key": "shazzoo/icon-picker",
+      "slug": "icon-picker",
+      "name": "Icon Picker",
+      "description": "Pick icons from a searchable grid of the Lucide set.",
+      "provider": "Shazzoo\\IconPicker\\IconPickerServiceProvider"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

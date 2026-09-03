@@ -1,0 +1,16 @@
+<?php
+
+namespace Shazzoo\IconPicker;
+
+class Plugin
+{
+    public static function key(): string
+    {
+        return 'shazzoo/icon-picker';
+    }
+
+    public static function provider(): string
+    {
+        return IconPickerServiceProvider::class;
+    }
+}
