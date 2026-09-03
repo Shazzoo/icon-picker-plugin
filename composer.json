@@ -1,5 +1,5 @@
 {
-  "name": "shazzoo/icon-picker",
+  "name": "shazzoo/icon-picker-plugin",
   "description": "Icon picker for Content Studio Core: a searchable icon grid field, a Blade Icons set and an admin icon library.",
   "type": "content-studio-plugin",
   "version": "0.1.0",
@@ -15,7 +15,7 @@
   },
   "extra": {
     "content-studio": {
-      "key": "shazzoo/icon-picker",
+      "key": "shazzoo/icon-picker-plugin",
       "slug": "icon-picker",
       "name": "Icon Picker",
       "description": "Pick icons from a searchable grid of the Lucide set.",

@@ -6,7 +6,7 @@ class Plugin
 {
     public static function key(): string
     {
-        return 'shazzoo/icon-picker';
+        return 'shazzoo/icon-picker-plugin';
     }
 
     public static function provider(): string

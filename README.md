@@ -15,7 +15,7 @@ Icons are plain SVG files, read from two places:
 ## Installation
 
 ```bash
-composer require shazzoo/icon-picker
+composer require shazzoo/icon-picker-plugin
 ```
 
 Then activate **Icon Picker** in the admin under Plugins.
@@ -51,9 +51,9 @@ return [
 |---|---|
 | `icons:sync` | Installs every icon referenced by content plus the `required` list |
 | `icons:bundle` | Re-copies the `bundled` list into `resources/icons` (package development) |
-| `icons:manifest` | Rebuilds `resources/icons.json` from `node_modules/lucide-static` (package development) |
+| `icons:build` | Rebuilds `resources/icons.json` from `node_modules/lucide-static` (package development) |
 
-`icons:manifest` reads the icon sources from the site's `node_modules`, so it
+`icons:build` reads the icon sources from the site's `node_modules`, so it
 needs `lucide-static` installed there.
 
 ## Using icons in a theme
