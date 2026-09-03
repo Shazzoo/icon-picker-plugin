@@ -2,6 +2,7 @@
   "name": "shazzoo/icon-picker",
   "description": "Icon picker for Content Studio Core: a searchable icon grid field, a Blade Icons set and an admin icon library.",
   "type": "content-studio-plugin",
+  "version": "0.1.0",
   "license": "MIT",
   "require": {
     "php": "^8.3",
